@@ -10,6 +10,7 @@
       <detail-dis :discuss='discuss' ref="comment"></detail-dis>
       <goods-list :goods='recommends' ref="recommend"></goods-list>
     </scroll>
+    <detailBottomBar></detailBottomBar>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import detailGoodsInfo from './childComps/detailGoodsInfo'
 import detailParamInfo from './childComps/detailParamInfo'
 import detailDis from './childComps/detailDis'
 import goodsList from 'components/content/goods/goodsList' 
+import detailBottomBar from './childComps/detailBottomBar'
 
 import scroll from 'components/common/scroll/scroll'
 
@@ -41,7 +43,8 @@ export default {
     detailParamInfo,
     detailDis,
     scroll,
-    goodsList
+    goodsList,
+    detailBottomBar
   },
   mixins: [itemListenerMixin],
   data(){
