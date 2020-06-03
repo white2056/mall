@@ -30,11 +30,11 @@
   import tabControl from 'components/content/tabcontrol/tabControl'
   import goodsList from 'components/content/goods/goodsList'
   import scroll from 'components/common/scroll/scroll'
-  import backTop from 'components/content/backtop/backTop'
+  // import backTop from 'components/content/backtop/backTop'
 
   import {getHomeMultidata, getHomeGoods} from 'network/home';
   import {debounce} from 'common/utils'
-  import {itemListenerMixin} from 'common/mixin'
+  import {itemListenerMixin, backTopMixin} from 'common/mixin'
 
 
 export default {
@@ -47,9 +47,9 @@ export default {
     tabControl,
     goodsList,
     scroll,
-    backTop
+  
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data(){
     return{
       banners: [],
@@ -60,7 +60,7 @@ export default {
         'sell':{page: 0, list: []},
       },
       currentType: 'pop',
-      isShow: false,
+      // isShow: false,
       tabOffsetTop: 0, 
       isTabFixed: false,
       load1: false,
@@ -118,9 +118,9 @@ export default {
       this.$refs.topControl1.currentIndex = index
       this.$refs.topControl2.currentIndex = index
     },
-    backClick(){
-      this.$refs.scroll.scrollTo(0, 0, 500)
-    },
+    // backClick(){
+    //   this.$refs.scroll.scrollTo(0, 0, 500)
+    // },
     contentScroll(position){
       this.isShow = (-position.y) > 1000
 

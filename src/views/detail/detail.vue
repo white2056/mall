@@ -10,7 +10,8 @@
       <detail-dis :discuss='discuss' ref="comment"></detail-dis>
       <goods-list :goods='recommends' ref="recommend"></goods-list>
     </scroll>
-    <detailBottomBar></detailBottomBar>
+    <back-top @click.native='backClick' v-show="isShow"></back-top>
+    <detailBottomBar @addToCart='addToCart'></detailBottomBar>
   </div>
 </template>
 
@@ -28,7 +29,7 @@ import detailBottomBar from './childComps/detailBottomBar'
 import scroll from 'components/common/scroll/scroll'
 
 import {debounce} from 'common/utils'
-import {itemListenerMixin} from 'common/mixin'
+import {itemListenerMixin, backTopMixin} from 'common/mixin'
 
 import {getDetail, Goods, Shop, goodsParam, discuss, getRecommend} from 'network/detail'
 
@@ -46,7 +47,7 @@ export default {
     goodsList,
     detailBottomBar
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data(){
     return {
       iid: null,
@@ -67,6 +68,7 @@ export default {
 
     getDetail(this.iid).then(res => {
       const data = res.result
+      console.log(res);
       
       
       this.topImages = data.itemInfo.topImages
@@ -103,6 +105,8 @@ export default {
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 100)
     },
     contentScroll(position){
+      
+      
       const positionY = -position.y
       
       let length = this.themeTopYs.length
@@ -114,6 +118,20 @@ export default {
           this.$refs.nav.currentIndex = this.currentIndex
         }
       }
+      this.isShow = (-position.y) > 1000
+    },
+    addToCart(){
+      const product = {}
+      product.image = this.topImages[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.realPrice
+      product.iid = this.iid
+
+      // this.$store.commit('addCart', product)
+      this.$store.dispatch('addCart', product).then(res => {
+        this.$toast.show(res, 1500)
+      })
     }
   },
   mounted(){
@@ -143,7 +161,8 @@ export default {
     top: 44px;
     bottom: 60px;
     left: 0;
-    right: 0
+    right: 0;
+    overflow: hidden;
   }
   .detail-nav-bar{
     position: relative;
